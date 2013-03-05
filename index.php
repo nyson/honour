@@ -6,7 +6,7 @@
 
   function drugee($name, $email, DateTime $since){
     $format = '<span class="days">%a</span><span class="quantifier"> days and </span>'
-    . '<span class="hours">%h:%s</span><span class="quantifier"> hours</span>';
+    . '<span class="hours">%h:%I</span><span class="quantifier"> hours</span>';
   $time = (new DateTime("now"))->diff($since)
                                ->format($format);
 ?>
@@ -57,6 +57,9 @@
         ), array("name" => "Behrouz Talebi",
                  "email" => "berrat2@gmail.com",
                  "since" => DateTime::createFromFormat($format, "20130305 14:00")
+	),  array("name" => "Tove Ekblad",
+                 "email" => "tove@ekblad.cc",
+                 "since" => DateTime::createFromFormat($format, "20130305 17:00")
         )
       );
       
