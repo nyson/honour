@@ -1,0 +1,41 @@
+
+body {
+    text-align: center;
+    padding-top: 50px;
+}
+.drugee{
+    border-radius: 10px;
+    width: 200px;
+    border: 1px solid;
+    text-align: center;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.drugee p.count {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.drugee h2 {
+    font-size: 16px;
+    margin: 2px;
+}
+
+.drugee img {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.drugee .motivator, .drugee .quantifier {
+    font-size: 0.6em;
+}
+
+.drugee .days, .drugee .hours, .drugee .seconds {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.drugee hr {
+    width: 90%;
+}
