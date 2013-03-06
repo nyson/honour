@@ -59,7 +59,7 @@
                  "since" => DateTime::createFromFormat($format, "20130305 14:00")
 	),  array("name" => "Tove Ekblad",
                  "email" => "tove@ekblad.cc",
-                 "since" => DateTime::createFromFormat($format, "20130305 17:00")
+                 "since" => DateTime::createFromFormat($format, "20130305 19:10")
         )
       );
       
