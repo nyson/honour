@@ -20,11 +20,14 @@ class Drugee {
   public function toHTML(){
     return "<div class='drugee'>"
       . "<h2>$this->name</h2>"
-      . "<img src='http://www.gravatar.com/avatar/".$this->gravHashGen($email)
+      . "<img src='http://www.gravatar.com/avatar/"
+      . $this->gravHashGen($this->email)
       . " alt='Image for $this->name' />"
       . "<p class='count'>"
       . "<span class='motivator'>Currently not giving in to temptation for</span><br />"
-      . $this->timeDiffHTML($lastBreach);
+      . $this->timeDiffHTML($this->lastBreach)
+      . "</div>"
+      ;
   }
 
   private function intervalHTML(DateInterval $diff) {
@@ -38,7 +41,7 @@ class Drugee {
 				DateTime $diff = null) {
     if($diff === null)
       $diff = new DateTime("now");
-    return $this->intervalHTML((new DateTime($diff))->diff($time));
+    return $this->intervalHTML($diff->diff($time));
   }
       
   

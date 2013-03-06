@@ -1,4 +1,6 @@
 <?
+require_once("./lib/Drugees.php");
+$drugees = new Drugees();
   function gravHashGen($in){
     return md5(strtolower(trim($in)));
   }
@@ -41,34 +43,7 @@
     <div id="leftbar">
     </div>
     <div id="drugees">
-      <?
-        
-        $format = "Ymd H:i";
-      $drugees = array(
-        array("name" => "Jonathan Skårstedt", 
-              "email" => "sirnyson@gmail.com", 
-              "since" => DateTime::createFromFormat($format, "20130305 00:00")
-        ), array("name" => "Anton Ekblad",
-                 "email" => "anton@ekblad.cc",
-                 "since" => DateTime::createFromFormat($format, "20130305 00:00")
-        ), array("name" => "Gustav Johansson",
-                 "email" => "",
-                 "since" => DateTime::createFromFormat($format, "20130305 12:00")
-        ), array("name" => "Behrouz Talebi",
-                 "email" => "berrat2@gmail.com",
-                 "since" => DateTime::createFromFormat($format, "20130305 14:00")
-	),  array("name" => "Tove Ekblad",
-                 "email" => "tove@ekblad.cc",
-                 "since" => DateTime::createFromFormat($format, "20130305 17:00")
-        )
-      );
-      
-
-
-      foreach($drugees as $drugee) {
-        drugee($drugee['name'], $drugee['email'], $drugee['since']);
-      }
-      ?>
+    <?= $drugees->getAllAsHTML(); ?>
     </div>
   </body>
 </html>
