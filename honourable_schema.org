@@ -1,0 +1,15 @@
+* users
+| field           | type    | extra                      |
+|-----------------+---------+----------------------------|
+| name            | varchar |                            |
+| email           | varchar |                            |
+| id              | int     | pk                         |
+| largestInterval | int     | represent a timestamp diff |
+
+
+* resets
+| field     | type | extra                     |
+|-----------+------+---------------------------|
+| timestamp | int  | timestamp, unique with fk |
+| user      | int  | fk                        |
+

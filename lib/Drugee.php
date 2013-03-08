@@ -1,18 +1,33 @@
 <? 
+class NotATimestampException extends Exception {}
 /**
  * Class for creating and formatting drugees
  */
 
 class Drugee {
-  private $name, $started, $longestRun, $lastBreach, $email;
+  private $name, $maxInterval, $email;
+  private $resets = array();
   
-  public function __construct($name, $email, DateTime $lastBreach){
+  public function __construct($name, $email, $largestInterval, $resets){
     $this->name = $name;
     $this->email = $email;
-    $this->lastBreach = $lastBreach;
-    
+    $this->maxInterval = $maxInterval;
+    $this->addResets($resets);
   }
-  
+
+  private function addResets($resets) {
+    for($resets as $reset) {
+      if(getclassname($reset) === "DateTime") {
+	$resets[$reset->getTimestamp()] = $reset;
+
+      } else if(is_numeric($reset) && !ctype_digit($reset)) {
+	$resets[$reset] = DateTime::createFromFormat('U', $reset);
+
+      } else 
+	throw new Exception("Not a timestamp or date");
+    }
+  }
+
   private function gravHashGen($email) {
     return md5(strtolower(trim($email)));
   }
@@ -43,6 +58,4 @@ class Drugee {
       $diff = new DateTime("now");
     return $this->intervalHTML($diff->diff($time));
   }
-      
-  
 }
