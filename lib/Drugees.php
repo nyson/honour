@@ -29,28 +29,35 @@ class Drugees {
     $drugeesRaw = array
       (array("name" => "Jonathan Skårstedt", 
              "email" => "sirnyson@gmail.com", 
-             "since" => DateTime::createFromFormat($format, "20130305 00:00")
+             "since" => array(DateTime::createFromFormat($format, "20130305 00:00"))
              ), 
        array("name" => "Anton Ekblad",
              "email" => "anton@ekblad.cc",
-             "since" => DateTime::createFromFormat($format, "20130305 00:00")
+             "since" => array(DateTime::createFromFormat($format, "20130305 00:00"),
+			      DateTime::createFromFormat($format, "20130311 01:02")
+			      )
              ), 
        array("name" => "Gustav Johansson",
              "email" => "",
-             "since" => DateTime::createFromFormat($format, "20130305 12:00")
+             "since" => array(DateTime::createFromFormat($format, "20130305 12:00"))
              ), 
        array("name" => "Behrouz Talebi",
              "email" => "berrat2@gmail.com",
-             "since" => DateTime::createFromFormat($format, "20130305 14:00")
+             "since" => array(DateTime::createFromFormat($format, "20130305 14:00"))
              ),  
        array("name" => "Tove Ekblad",
              "email" => "tove@ekblad.cc",
-             "since" => DateTime::createFromFormat($format, "20130305 17:00")
+             "since" => array(DateTime::createFromFormat($format, "20130305 19:08")
+			      )
              )
        );    
 
     foreach($drugeesRaw as $d) {
-      $this->drugees[] = new Drugee($d['name'], $d['email'], $d['since']);
+      $this->drugees[] = new Drugee
+	($d['name'], 
+	 $d['email'], 
+	 (new DateTime("now"))->getTimestamp() - end($d['since'])->getTimestamp(),
+	 $d['since']);
     }
   }
 }
