@@ -52,12 +52,12 @@ class Drugee {
       $weeks = $days / 7;
       $weekDays = $days % 7;
 
-      $timestring = '<span class="days">$weeks</span>'
+      $timestring = "<span class='days'>$weeks</span>"
 	. '<span class="quantifier"> weeks'
 	. ($weekDays !== 0 ? ' and </span>' : "</span>");
 	
       if($weekDays !== 0) {
-	$timestring .= '<span class="hours">$weekDays</span>'
+	$timestring .= "<span class='hours'>$weekDays</span>"
 	. '<span class="quantifier"> days</span>';
       }
       return $diff->format($timestring);

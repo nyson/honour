@@ -13,9 +13,7 @@ class Drugees {
     foreach($this->drugees as $d) {
       $out .= $d->toHTML() . "\n";
     }
-
     return $out;
-    
   }
   
   private function loadFromDatabase(){
@@ -24,8 +22,6 @@ class Drugees {
   
   private function populateWithDefaultValues(){
     $format = "Ymd H:i";
- 
-
     $drugeesRaw = array
       (array("name" => "Jonathan Skårstedt", 
              "email" => "sirnyson@gmail.com", 
