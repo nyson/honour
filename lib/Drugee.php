@@ -5,14 +5,13 @@ class NotATimestampException extends Exception {}
  */
 
 class Drugee {
-  private $name, $maxInterval, $email;
-  private $resets = array();
-  private $lastBreach;
+  public $name, $maxInterval, $email;
+  public $resets = array();
+  public $lastBreach;
   
-  public function __construct($name, $email, $maxInterval, $resets){
+  public function __construct($name, $email, $resets){
     $this->name = $name;
     $this->email = $email;
-    $this->maxInterval = $maxInterval;
     $this->addResets($resets);
   }
 
@@ -20,10 +19,11 @@ class Drugee {
     foreach($resets as $reset) {
       if(get_class($reset) === "DateTime") {
 	$this->lastBreach = $resets[$reset->getTimestamp()] = $reset;
+	$this->resets[] = $reset;
 
       } else if(is_numeric($reset) && !ctype_digit($reset)) {
 	$this->lastBreach = $resets[$reset] = DateTime::createFromFormat('U', $reset);
-
+	$this->resets[] = $reset;
       } else 
 	throw new Exception("Not a timestamp or date");
     }

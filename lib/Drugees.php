@@ -1,11 +1,13 @@
 <?
 require_once("./lib/Drugee.php");
-
+require_once("./lib/SQL.php");
 class Drugees {
-  public $drugees;
+  protected $drugees;
+  protected $db;
 
   public function __construct(){
-    $this->populateWithDefaultValues();
+    $this->db = SQL::getInstance();
+    $this->loadFromDatabase();
   }
 
   public function getAllAsHTML() {
@@ -16,44 +18,34 @@ class Drugees {
     return $out;
   }
   
-  private function loadFromDatabase(){
+  protected function loadFromDatabase(){
+    $drugees = array(); $this->drugees = array();
+    $users = $this->db->query("SELECT id, name, email FROM users");
+    $userids = array();
     
-  }
-  
-  private function populateWithDefaultValues(){
-    $format = "Ymd H:i";
-    $drugeesRaw = array
-      (array("name" => "Jonathan Skårstedt", 
-             "email" => "sirnyson@gmail.com", 
-             "since" => array(DateTime::createFromFormat($format, "20130305 00:00"))
-             ), 
-       array("name" => "Anton Ekblad",
-             "email" => "anton@ekblad.cc",
-             "since" => array(DateTime::createFromFormat($format, "20130305 00:00"),
-			      DateTime::createFromFormat($format, "20130311 01:02")
-			      )
-             ), 
-       array("name" => "Gustav Johansson",
-             "email" => "",
-             "since" => array(DateTime::createFromFormat($format, "20130305 12:00"))
-             ), 
-       array("name" => "Behrouz Talebi",
-             "email" => "berrat2@gmail.com",
-             "since" => array(DateTime::createFromFormat($format, "20130305 14:00"))
-             ),  
-       array("name" => "Tove Ekblad",
-             "email" => "tove@ekblad.cc",
-             "since" => array(DateTime::createFromFormat($format, "20130305 19:08")
-			      )
-             )
-       );    
+    while($r = $users->fetch_assoc()){
+      $userids[] = $r['id'];
+      $drugees[$r['id']] = array
+	("name" => $r['name'],
+	 "email" => $r['email'],
+	 "since" => array());
+    }
 
-    foreach($drugeesRaw as $d) {
-      $this->drugees[] = new Drugee
-	($d['name'], 
-	 $d['email'], 
-	 (new DateTime("now"))->getTimestamp() - end($d['since'])->getTimestamp(),
-	 $d['since']);
+    $resets = $this->db->query
+      ("SELECT user, timestamp FROM resets WHERE "
+       . "user IN (".implode($userids, ', ').") "
+       . "ORDER BY timestamp ASC");
+    
+    if($this->db->error) {
+      throw new BadQueryException("Could not execute last query!");
+    }
+    while($r = $resets->fetch_assoc()) {
+      $drugees[$r['user']]['since'][] 
+	= DateTime::createFromFormat('U', $r['timestamp']);
+    }
+
+    foreach($drugees as $d) {
+      $this->drugees[] = new Drugee($d['name'], $d['email'], $d['since']);
     }
   }
 }

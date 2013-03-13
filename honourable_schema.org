@@ -5,11 +5,20 @@
 | email           | varchar |                            |
 | id              | int     | pk                         |
 | largestInterval | int     | represent a timestamp diff |
-
+| hash            | varchar  |                            |
 
 * resets
 | field     | type | extra                     |
 |-----------+------+---------------------------|
 | timestamp | int  | timestamp, unique with fk |
 | user      | int  | fk                        |
+
+* ticks
+
+| field | type          | extra                                 |
+|-------+---------------+---------------------------------------|
+| type  | varchar 8     | defines message type                  |
+| title | varchar 64    | may be null for certain message types |
+| text  | text          | may be null for certain message types |
+| date  | int timestamp |                                       |
 
