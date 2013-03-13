@@ -49,7 +49,7 @@ class Drugee {
   private function intervalHTML(DateInterval $diff) {
     $days = $diff->format("%a");
     if($days >= 7) {
-      $weeks = $days / 7;
+      $weeks = floor($days / 7);
       $weekDays = $days % 7;
 
       $timestring = "<span class='days'>$weeks</span>"
