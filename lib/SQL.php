@@ -1,7 +1,13 @@
 <?
 
 require_once("./config.php");
-class BadQueryException extends Exception {};
+class BadQueryException extends Exception {
+  public function __construct($e){
+    $db = SQL::getInstance();
+
+    parent::__construct($e . "\nSQL error ($db->errno): $db->error");
+  }
+};
 
 
 /**

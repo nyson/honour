@@ -12,6 +12,7 @@ $drugees = new Drugees();
     <title>Honourbound Duel Counter</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="./js/Drugees.js"></script>
     <script src="./js/main.js"></script>
   </head>
   <body>

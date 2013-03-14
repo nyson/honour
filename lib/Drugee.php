@@ -5,11 +5,12 @@ class NotATimestampException extends Exception {}
  */
 
 class Drugee {
-  public $name, $maxInterval, $email;
+  public $name, $lastInterval, $email, $id;
   public $resets = array();
   public $lastBreach;
   
-  public function __construct($name, $email, $resets){
+  public function __construct($id, $name, $email, $resets){
+    $this->id = $id;
     $this->name = $name;
     $this->email = $email;
     $this->addResets($resets);
@@ -22,11 +23,12 @@ class Drugee {
 	$this->resets[] = $reset;
 
       } else if(is_numeric($reset) && !ctype_digit($reset)) {
-	$this->lastBreach = $resets[$reset] = DateTime::createFromFormat('U', $reset);
+	$this->lastBreach = $resets[$reset] = D0ateTime::createFromFormat('U', $reset);
 	$this->resets[] = $reset;
       } else 
 	throw new Exception("Not a timestamp or date");
     }
+
   }
 
   private function gravHashGen($email) {
@@ -43,7 +45,21 @@ class Drugee {
       . "<span class='motivator'>Currently not giving in to temptation for</span><br />"
       . $this->timeDiffHTML($this->lastBreach)
       . "</div>"
+
       ;
+  }
+
+  public function toDataArray(){
+    $resout = array();
+
+    foreach($this->resets as $r) {
+      $resout[] = $r->getTimestamp();
+    }
+    return array("name" => $this->name,
+		 "gravatarHash" => $this->gravHashGen($this->email),
+		 "email" => $this->email,
+		 "resets" => $resout,
+		 "lastBreach" => $this->lastBreach->getTimestamp());
   }
 
   private function intervalHTML(DateInterval $diff) {

@@ -18,6 +18,15 @@ class Drugees {
     return $out;
   }
   
+  public function getAllAsDataArray(){
+    $out = array();
+    foreach($this->drugees as $drugee) {
+      $out[] = $drugee->toDataArray();
+    }
+
+    return $out;
+  }  
+
   protected function loadFromDatabase(){
     $drugees = array(); $this->drugees = array();
     $users = $this->db->query("SELECT id, name, email FROM users");
@@ -26,7 +35,8 @@ class Drugees {
     while($r = $users->fetch_assoc()){
       $userids[] = $r['id'];
       $drugees[$r['id']] = array
-	("name" => $r['name'],
+	("id"=> $r['id'],
+	 "name" => $r['name'],
 	 "email" => $r['email'],
 	 "since" => array());
     }
@@ -37,7 +47,7 @@ class Drugees {
        . "ORDER BY timestamp ASC");
     
     if($this->db->error) {
-      throw new BadQueryException("Could not execute last query!");
+      throw new BadQueryException("Couldn't insert reset into DB: ");
     }
     while($r = $resets->fetch_assoc()) {
       $drugees[$r['user']]['since'][] 
@@ -45,7 +55,7 @@ class Drugees {
     }
 
     foreach($drugees as $d) {
-      $this->drugees[] = new Drugee($d['name'], $d['email'], $d['since']);
+      $this->drugees[] = new Drugee($d['id'], $d['name'], $d['email'], $d['since']);
     }
   }
 }
